@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+    <head> 
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+        <title></title>
+    </head>
+    <body class="container">
+        <main class="card">
+            <div class=" d-flex flex-row  flex-wrap" id="main">
+                
+            </div>
+        </main>
+    </body>
+
+    <script>
+        var elements = [
+
+            {
+                title : "Strings",
+                elements: 
+                [
+                    {
+                        title : "Character Counter",
+                        url : "https://charactercounter.pericodes.com/"
+                    },
+                    {
+                        title : "Remove duplicates",
+                        url : "https://removeduplicates.pericodes.com/"
+                    },
+                ] 
+            
+            },
+            {
+                title : "Security",
+                elements: 
+                [
+                    {
+                        title : "Password Generator",
+                        url : "https://passwordgenerator.pericodes.com/"
+                    },
+                    {
+                        title : "Hash Generator",
+                        url : "https://hashgenerator.pericodes.com/"
+                    },
+                ] 
+            
+            },
+
+        ];
+
+        
+        function order(arr) {
+            return arr.sort((a,b) => {
+                    if (a.title > b.title) {
+                        return 1;
+                    }
+                    if (a.title < b.title) {
+                        return -1;
+                    }
+                    // a must be equal to b
+                    return 0; 
+                })
+        }
+
+        console.log(elements);
+        
+        elements = order(elements); 
+
+        elements.forEach(category => {
+            console.log(category.title);
+            let html = `
+            <ul class="list-group col-md-4 p-3">
+		<li class="list-group-item active" id="${category.title}">${category.title}</li>
+		<ul class="list-group">
+
+            `;
+            let categoryElements = order(category.elements);
+            categoryElements.forEach(element => {
+                html += `<li class="list-group-item"><a href="${element.url}">${element.title}</a></li>`;
+            });
+
+            html += "</ul></ul>"; 
+
+            document.getElementById('main').insertAdjacentHTML('beforeend', html); 
+        });
+
+    </script>
+</html>
