@@ -12,6 +12,7 @@ If you think any of them can be improved, send me a Poll Request and if they are
 #### Strings
 * [Character Counter](https://charactercounter.pericodes.com/) [[GitRepo](https://github.com/pericodes/character-counter)]
 * [Remove duplicates](https://removeduplicates.pericodes.com/) [[GitRepo](https://github.com/pericodes/remove-duplicates)]
+* [List Sorter](https://sortlist.pericodes.com/) [[GitRepo](https://github.com/pericodes/list-sorter)]
 
 #### Security
 * [Password Generator](https://passwordgenerator.pericodes.com/) [[GitRepo](https://github.com/pericodes/password-generator)]
