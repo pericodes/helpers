@@ -18,30 +18,33 @@
         </style>
     </head>
     <body class="container">
-        <header>
+        <header >
             <h1>Online Open Source Helpers</h1>
         </header>
-        <main class="card">
-            <section class="card card-body">
-                <h2>My favourites helpers (<span class="fovouriteStar" style="font-size: xx-large; color: burlywood; line-height: 1; cursor:pointer;" onclick="favourited(this)">★</span>)</h2>
+        <main class="card card-body">
+            <section class=" card-body">
+                <h2>My favourites helpers (<span class="fovouriteStar" style="font-size: xx-large; color: burlywood; line-height: 1;">★</span>)</h2>
                 <div class=" d-flex flex-row  flex-wrap" id="favourite-helpers">
                 
                 </div>
             </section>
-            <section class="card card-body">
+            <section class=" card-body">
                 <h2>All my helpers</h2>
                 <div class=" d-flex flex-row  flex-wrap" id="helpers">
                 
                 </div>
             </section>
         </main>
-        <footer class="mt-5">
+        <footer class="card card-body">
             <h3>Credits: </h3>
             <p>Make with love by <a href="https://github.com/pericodes">Pericodes</a></p>
         </footer>
     </body>
 
     <script>
+        var favouritesUrls = localStorage.getItem('favouritesUrls') ? JSON.parse(localStorage.getItem('favouritesUrls')) : []; 
+        var favouritesTitles = localStorage.getItem('favouritesTitles') ? JSON.parse(localStorage.getItem('favouritesTitles')) : []; 
+
         var elements = [
 
             {
@@ -96,27 +99,57 @@
                 })
         }
 
-        console.log(elements);
-        
-        elements = order(elements); 
 
-        elements.forEach(category => {
-            console.log(category.title);
-            let html = `
-            <ul class="list-group col-md-4 p-3">
-		<li class="list-group-item active" id="${category.title}">${category.title}</li>
-		<ul class="list-group">
+        function favourited(url, title) {
+            
+            if(favouritesUrls.includes(url)){
+                const index = favouritesUrls.indexOf(url);
+                if (index > -1) {
+                    favouritesUrls.splice(index, 1);
+                    favouritesTitles.splice(index, 1);
+                }
+            }else{
+                favouritesUrls.push(url); 
+                favouritesTitles.push(title); 
+            }
+            localStorage.setItem('favouritesUrls', JSON.stringify(favouritesUrls));
+            localStorage.setItem('favouritesTitles', JSON.stringify(favouritesTitles));
+            print(); 
+        }
 
-            `;
-            let categoryElements = order(category.elements);
-            categoryElements.forEach(element => {
-                html += `<li class="list-group-item"><span class="fovouriteStar" onclick="favourited(this)">★</span><a href="${element.url}">${element.title}</a></li>`;
+        print();
+        function print() {
+            elements = order(elements); 
+            let html = `<ul class="list-group list-group-flush" style='width: 100%'>`;
+
+            for (let index = 0; index < favouritesUrls.length; index++) {
+                const url = favouritesUrls[index];
+                const title = favouritesTitles[index];
+                html += `<li class="list-group-item"><span class="fovouriteStar" style='color: burlywood;' onclick="favourited(`+"`"+url+"`, `"+title+"`"+`)">★</span><a href="${url}">${title}</a></li>`;
+            }
+            html += "</ul>"; 
+            document.getElementById('favourite-helpers').innerHTML = html;
+
+            document.getElementById('helpers').innerHTML = '';
+            elements.forEach(category => {
+                let html = `
+                <ul class="list-group col-md-4 p-3">
+                <li class="list-group-item active" id="${category.title}">${category.title}</li>
+                <ul class="list-group">
+
+                `;
+                let categoryElements = order(category.elements);
+                categoryElements.forEach(element => {
+                    html += `<li class="list-group-item"><span class="fovouriteStar" ${favouritesUrls.includes(element.url) ? "style='color: burlywood;'" : ""}" onclick="favourited(`+"`"+element.url+"`, `"+element.title+"`"+`)">★</span><a href="${element.url}">${element.title}</a></li>`;
+                });
+
+                html += "</ul></ul>"; 
+
+                document.getElementById('helpers').insertAdjacentHTML('beforeend', html); 
             });
+        }
 
-            html += "</ul></ul>"; 
 
-            document.getElementById('helpers').insertAdjacentHTML('beforeend', html); 
-        });
 
     </script>
 </html>
